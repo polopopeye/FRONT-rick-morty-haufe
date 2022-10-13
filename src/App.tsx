@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { store } from './app/store';
 import Details from './components/details/Details';
 import { Home } from './components/home';
+import LogOut from './components/home/LogOut';
 import Layout from './components/layout/Layout';
 import { Login } from './components/login/login';
 import { Register } from './components/register/register';
@@ -26,6 +27,7 @@ function App() {
               }
             />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<LogOut />} />
             <Route path="/register" element={<Register />} />
             <Route path="/character/:id" element={<Details />} />
             <Route path="*" element={<PageNotFound />} />

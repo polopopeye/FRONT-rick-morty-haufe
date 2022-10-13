@@ -19,10 +19,6 @@ export const listCharacters = createAsyncThunk(
 
     return axios
       .get(constants.api.character, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-
         withCredentials: true,
         params: {
           page: page,

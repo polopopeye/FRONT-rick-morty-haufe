@@ -32,7 +32,13 @@ const Home = () => {
   }, []);
 
   if (characters.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Button onClick={logout}>Logout</Button>
+
+        <div>Loading...</div>
+      </>
+    );
   }
 
   return (
