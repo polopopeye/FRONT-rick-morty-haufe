@@ -29,7 +29,15 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<LogOut />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/character/:id" element={<Details />} />
+
+            <Route
+              path="/character/:id"
+              element={
+                <RequireAuth loginPath="/login">
+                  <Details />
+                </RequireAuth>
+              }
+            />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           <ToastContainer
