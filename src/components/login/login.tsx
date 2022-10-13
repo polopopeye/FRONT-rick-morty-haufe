@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { login } from '../../app/slices/userSlice';
 import { store } from '../../app/store';
+import Cookies from 'universal-cookie';
 
 const Login = () => {
   const [error, setError] = useState('');
@@ -33,7 +34,11 @@ const Login = () => {
       .dispatch(login(values))
       .unwrap()
       .then((result: any) => {
+        console.log(`fastlog => result`, result);
         toast.success('Welcome!! 💓');
+
+        // const cookies = new Cookies();
+        // cookies.set('token', result.token);
 
         signIn({
           token: result.token,

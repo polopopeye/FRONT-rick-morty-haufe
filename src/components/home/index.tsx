@@ -26,7 +26,12 @@ const Home = () => {
 
   useEffect(() => {
     if (characters.length === 0) {
-      store.dispatch(listCharacters({ page: currentPagination }));
+      store.dispatch(
+        listCharacters({
+          page: currentPagination,
+          token: store.getState().user.jwtToken.token,
+        })
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
