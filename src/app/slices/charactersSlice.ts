@@ -1,60 +1,109 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import type { RootState } from '../../app/store';
+import { RootState, store } from '../../app/store';
 
 import constants from '../constants';
-// import { PuppyInterface } from '../interfaces/puppyInterface';
-
-// export type PuppyState = {
-//   data: [any?];
-//   pending: boolean;
-//   error: boolean;
-// };
 
 const initialState: any = {
   listCharacters: [],
+  currentPagination: 1,
   pending: false,
   error: false,
 };
 
-export const listCharacters = createAsyncThunk('character', async () => {
-  const response = await axios.get(constants.api.character, {
-    params: {
-      page: 1,
-    },
-  });
-  return response.data;
-});
+export const listCharacters = createAsyncThunk(
+  'character/listCharacters',
+  async (data: { page: number }, { rejectWithValue }) => {
+    const { page } = data;
+
+    return axios
+      .get(constants.api.character, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        withCredentials: true,
+        params: {
+          page: page,
+        },
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return rejectWithValue(error.message);
+      });
+  }
+);
+
+const listCharactersReducer = {
+  [listCharacters.pending.toString()]: (state: any) => {
+    state.pending = true;
+  },
+  [listCharacters.fulfilled.toString()]: (
+    state: any,
+    response: { payload: any }
+  ) => {
+    const { payload } = response;
+    state.pending = false;
+    state.listCharacters = payload;
+  },
+  [listCharacters.rejected.toString()]: (state: any) => {
+    state.pending = false;
+    state.error = true;
+  },
+};
+
+export const getCharacterInfo = createAsyncThunk(
+  'character/getCharacterInfo',
+  async (data: { id: any }, { rejectWithValue }) => {
+    const { id } = data;
+
+    return axios
+      .get(constants.api.character + id, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        withCredentials: true,
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return rejectWithValue(error.message);
+      });
+  }
+);
+
+const getCharacterInfoReducer = {
+  [getCharacterInfo.pending.toString()]: (state: any) => {
+    state.pending = true;
+  },
+  [getCharacterInfo.fulfilled.toString()]: (
+    state: any,
+    response: { payload: any }
+  ) => {
+    state.pending = false;
+  },
+  [getCharacterInfo.rejected.toString()]: (state: any) => {
+    state.pending = false;
+    state.error = true;
+  },
+};
 
 export const characterSlice = createSlice({
   name: 'character',
   initialState,
   reducers: {
-    // saveHeart: (state, action) => {
-    //   const character = state.data.find((character) => character?.id === action.payload);
-    //   if (character) {
-    //     puppy.heart = puppy.heart ? false : true;
-    //   }
-    // },
+    setCurrentPagination: (state, action) => {
+      state.currentPagination = action.payload;
+    },
   },
-  extraReducers: (builder: any) => {
-    builder
-      .addCase(listCharacters.pending, (state: any) => {
-        state.pending = true;
-      })
-      .addCase(
-        listCharacters.fulfilled,
-        (state: any, response: { payload: any }) => {
-          const { payload } = response;
-          state.pending = false;
-          state.data = payload;
-        }
-      )
-      .addCase(listCharacters.rejected, (state: any) => {
-        state.pending = false;
-        state.error = true;
-      });
+  extraReducers: {
+    ...listCharactersReducer,
+    ...getCharacterInfoReducer,
   },
 });
 

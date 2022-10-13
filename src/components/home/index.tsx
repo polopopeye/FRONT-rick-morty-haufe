@@ -1,7 +1,12 @@
 // import axios from 'axios';
+import { useEffect } from 'react';
 import { useSignOut } from 'react-auth-kit';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container } from '../commons';
+import { listCharacters } from '../../app/slices/charactersSlice';
+import { RootState, store } from '../../app/store';
+import { Button, InnerContainer } from '../commons';
+import Pagination from './Pagination';
 
 const Home = () => {
   const singOut = useSignOut();
@@ -12,19 +17,57 @@ const Home = () => {
     navigate('/login');
   };
 
-  // const getPayment = async () => {
-  //   const response = await axios.get('http://localhost:9000/api/v1/payment', {
-  //     withCredentials: true,
-  //   });
-  //   console.log('Response: ', response);
-  // };
+  const { listCharacters: listCharactersState, currentPagination } =
+    useSelector((state: RootState) => state.character);
+
+  const characters =
+    listCharactersState && listCharactersState.data
+      ? listCharactersState.data.results
+      : [];
+
+  useEffect(() => {
+    if (characters.length === 0) {
+      store.dispatch(listCharacters({ page: currentPagination }));
+    }
+  }, []);
+
+  if (characters.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Container>
+    <InnerContainer>
       <h1 color="secondary500">Welcome Home Bud!</h1>
-      {/* <button onClick={getPayment}>Get Payment</button> */}
       <Button onClick={logout}>Logout</Button>
-    </Container>
+      <Pagination />
+
+      <InnerContainer
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr 1fr',
+          gap: '2em',
+        }}
+      >
+        {characters &&
+          characters.map((character: any) => (
+            <div
+              key={character.id}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onClick={() => {
+                navigate(`/character/${character.id}`);
+              }}
+            >
+              <h2>{character.name}</h2>
+              <img src={character.image} alt={character.name} />
+              <p>{character.description}</p>
+            </div>
+          ))}
+      </InnerContainer>
+      <Pagination />
+    </InnerContainer>
   );
 };
 

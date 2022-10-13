@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, InnerContainer } from '../commons';
+import { Container } from '../commons';
 import Footer from './Footer';
 import Header from './Header';
 
@@ -13,7 +13,9 @@ const Layout = ({ children }: LayoutProps) => {
     <>
       <Container>
         <Header />
-        <InnerContainer>{children}</InnerContainer>
+
+        {children}
+
         <Footer />
       </Container>
     </>

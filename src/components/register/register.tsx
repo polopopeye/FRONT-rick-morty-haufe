@@ -1,3 +1,4 @@
+import { useIsAuthenticated } from 'react-auth-kit';
 import {
   Button,
   Container,
@@ -6,11 +7,11 @@ import {
   InputWrapper,
   StyledInput,
 } from '../commons';
-import { useIsAuthenticated } from 'react-auth-kit';
 
+import { format } from 'date-fns';
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { useSignIn } from 'react-auth-kit';
+// import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { register } from '../../app/slices/userSlice';
@@ -24,7 +25,7 @@ const Register = () => {
     navigate('/');
   }
 
-  const signIn = useSignIn();
+  // const signIn = useSignIn();
 
   const onSubmit = async (values: any) => {
     console.log('Values: ', values);
@@ -33,25 +34,19 @@ const Register = () => {
       name: values.name,
       email: values.email,
       password: values.password,
-      birthDate: values.birthDate,
+      birthDate: format(new Date(values.birthDate), 'yyyy-MM-dd'),
     };
 
     setError('');
     store
-      .dispatch(register(values))
+      .dispatch(register(data))
       .unwrap()
       .then((result: any) => {
-        toast.success('Welcome!! 💓');
-
-        signIn({
-          token: result.token,
-          expiresIn: 3600,
-          tokenType: 'Bearer',
-          authState: { email: values.email },
-        });
+        console.log(`fastlog => result`, result);
+        toast.success('Great!! now you cam login!');
       })
       .catch((error) => {
-        toast.error('Invalid Credentials! 😢');
+        toast.error(error + '😢');
       });
   };
 
@@ -60,7 +55,7 @@ const Register = () => {
       name: '',
       email: '',
       password: '',
-      birthDate: '',
+      birthDate: format(new Date(), 'yyyy-MM-dd'),
     },
     onSubmit,
   });
@@ -100,6 +95,11 @@ const Register = () => {
           </InputWrapper>
           <InputWrapper>
             <StyledInput
+              style={{
+                backgroundColor: 'white',
+                color: 'black',
+                borderRadius: '10px',
+              }}
               name="birthDate"
               value={formik.values.birthDate}
               onChange={formik.handleChange}
@@ -114,9 +114,19 @@ const Register = () => {
                   Loading...
                 </Button>
               ) : (
-                <Button>Login</Button>
+                <Button>Register</Button>
               )}
             </>
+          </InputWrapper>
+          <InputWrapper>
+            <Button
+              style={{ backgroundColor: 'white', color: 'black' }}
+              onClick={() => {
+                navigate('/login');
+              }}
+            >
+              Go to Login
+            </Button>
           </InputWrapper>
         </form>
       </InnerContainer>

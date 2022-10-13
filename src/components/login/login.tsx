@@ -90,6 +90,16 @@ const Login = () => {
               )}
             </>
           </InputWrapper>
+          <InputWrapper>
+            <Button
+              style={{ backgroundColor: 'white', color: 'black' }}
+              onClick={() => {
+                navigate('/register');
+              }}
+            >
+              Create new account
+            </Button>
+          </InputWrapper>
         </form>
       </InnerContainer>
     </Container>
