@@ -1,25 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { AuthProvider, RequireAuth } from 'react-auth-kit';
+import { Provider } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { store } from './app/store';
+import { Home } from './components/home';
+import Layout from './components/layout/Layout';
+import { Login } from './components/login/login';
+import PageNotFound from './views/404/PageNotFound';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <AuthProvider authType="cookie" authName={'_token'}>
+        <Layout>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <RequireAuth loginPath="/login">
+                  <Home />
+                </RequireAuth>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+          <ToastContainer
+            position="top-center"
+            rtl={false}
+            newestOnTop={false}
+          />
+        </Layout>
+      </AuthProvider>
+    </Provider>
   );
 }
 
