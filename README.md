@@ -18,6 +18,9 @@ Libraries used:
 - date-fns
   a library for date formatting
 
-deployed in heroku:
+- cypress
+  a library for e2e testing
+
+#### deployed in heroku:
 
 https://front-haufe-rick.herokuapp.com/

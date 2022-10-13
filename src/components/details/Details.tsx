@@ -9,11 +9,8 @@ const Details = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(location.pathname);
-
   const id = location.pathname.split('/')[2];
   const [characterInfo, setCharacterInfo] = useState({} as any);
-  console.log(`fastlog => characterInfo`, characterInfo);
 
   useEffect(() => {
     store

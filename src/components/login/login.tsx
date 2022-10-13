@@ -1,3 +1,4 @@
+import { useIsAuthenticated } from 'react-auth-kit';
 import {
   Button,
   Container,
@@ -6,7 +7,6 @@ import {
   InputWrapper,
   StyledInput,
 } from '../commons';
-import { useIsAuthenticated } from 'react-auth-kit';
 
 import { useFormik } from 'formik';
 import { useState } from 'react';

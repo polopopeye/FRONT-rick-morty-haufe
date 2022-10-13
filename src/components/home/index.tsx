@@ -43,7 +43,7 @@ const Home = () => {
 
   return (
     <InnerContainer>
-      <h1 color="secondary500">Welcome Home Bud!</h1>
+      <h1 color="secondary500">Welcome!</h1>
       <Button onClick={logout}>Logout</Button>
       <Pagination />
 
