@@ -15,12 +15,7 @@ import PageNotFound from './views/404/PageNotFound';
 function App() {
   return (
     <Provider store={store}>
-      <AuthProvider
-        authType="cookie"
-        authName={'token'}
-        // cookieDomain={process.env.REACT_APP_BASE_URL}
-        cookieSecure={true}
-      >
+      <AuthProvider authType="cookie" authName={'token'}>
         <Layout>
           <Routes>
             <Route

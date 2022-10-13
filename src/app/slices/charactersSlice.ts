@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
-import { RootState, store } from '../../app/store';
+import { RootState } from '../../app/store';
 
 import constants from '../constants';
 
@@ -14,7 +14,7 @@ const initialState: any = {
 
 export const listCharacters = createAsyncThunk(
   'character/listCharacters',
-  async (data: { page: number; token: any }, { rejectWithValue }) => {
+  async (data: { page: number }, { rejectWithValue }) => {
     const { page } = data;
 
     return axios
@@ -22,9 +22,6 @@ export const listCharacters = createAsyncThunk(
         withCredentials: true,
         params: {
           page: page,
-        },
-        headers: {
-          Cookie: `token=${data.token}`,
         },
       })
       .then((response) => {

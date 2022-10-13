@@ -33,12 +33,7 @@ const Pagination = () => {
           onClick={() => {
             if (currentPage > 1) {
               setCurrentPage(currentPage - 1);
-              store.dispatch(
-                listCharacters({
-                  page: currentPage - 1,
-                  token: store.getState().user.jwtToken.token,
-                })
-              );
+              store.dispatch(listCharacters({ page: currentPage - 1 }));
               store.dispatch(
                 characterSlice.actions.setCurrentPagination(currentPage - 1)
               );
@@ -69,12 +64,7 @@ const Pagination = () => {
               key={page}
               onClick={() => {
                 setCurrentPage(page);
-                store.dispatch(
-                  listCharacters({
-                    page,
-                    token: store.getState().user.jwtToken.token,
-                  })
-                );
+                store.dispatch(listCharacters({ page }));
                 store.dispatch(
                   characterSlice.actions.setCurrentPagination(page)
                 );
@@ -92,12 +82,7 @@ const Pagination = () => {
           onClick={() => {
             if (currentPage < totalPages) {
               setCurrentPage(currentPage + 1);
-              store.dispatch(
-                listCharacters({
-                  page: currentPage + 1,
-                  token: store.getState().user.jwtToken.token,
-                })
-              );
+              store.dispatch(listCharacters({ page: currentPage + 1 }));
               store.dispatch(
                 characterSlice.actions.setCurrentPagination(currentPage + 1)
               );
