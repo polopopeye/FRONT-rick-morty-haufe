@@ -17,10 +17,16 @@ export const login = createAsyncThunk(
     const { email, password } = data;
 
     return axios
-      .post(constants.baseApiUrl + 'login', {
-        email,
-        password,
-      })
+      .post(
+        constants.baseApiUrl + 'login',
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         return response.data;
       })
