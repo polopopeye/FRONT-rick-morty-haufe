@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { DetailsContainer } from './Details.style';
-import { useLocation } from 'react-router-dom';
-import { store } from '../../app/store';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getCharacterInfo } from '../../app/slices/charactersSlice';
+import { store } from '../../app/store';
 import { Button, InnerContainer } from '../commons';
-import { useNavigate } from 'react-router-dom';
+import { DetailsContainer } from './Details.style';
 
 const Details = () => {
   const location = useLocation();
@@ -25,6 +24,7 @@ const Details = () => {
           setCharacterInfo(result.data);
         }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!characterInfo) {

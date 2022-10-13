@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { useEffect } from 'react';
 import { useSignOut } from 'react-auth-kit';
 import { useSelector } from 'react-redux';
@@ -29,6 +28,7 @@ const Home = () => {
     if (characters.length === 0) {
       store.dispatch(listCharacters({ page: currentPagination }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (characters.length === 0) {
