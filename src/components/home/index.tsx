@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { listCharacters } from '../../app/slices/charactersSlice';
 import { RootState, store } from '../../app/store';
 import { Button, InnerContainer } from '../commons';
+import CharacterList from './characterList/CharacterList';
 import Pagination from './Pagination';
 
 const Home = () => {
@@ -43,35 +44,10 @@ const Home = () => {
 
   return (
     <InnerContainer>
-      <h1 color="secondary500">Welcome!</h1>
+      <h1>Welcome!</h1>
       <Button onClick={logout}>Logout</Button>
       <Pagination />
-
-      <InnerContainer
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr 1fr',
-          gap: '2em',
-        }}
-      >
-        {characters &&
-          characters.map((character: any) => (
-            <div
-              key={character.id}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              onClick={() => {
-                navigate(`/character/${character.id}`);
-              }}
-            >
-              <h2>{character.name}</h2>
-              <img src={character.image} alt={character.name} />
-              <p>{character.description}</p>
-            </div>
-          ))}
-      </InnerContainer>
+      <CharacterList />
       <Pagination />
     </InnerContainer>
   );

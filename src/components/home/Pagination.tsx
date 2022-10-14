@@ -50,6 +50,7 @@ const Pagination = () => {
           if (page === currentPage) {
             return (
               <span
+                key={page}
                 style={{
                   padding: '0.5em',
                 }}

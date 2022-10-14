@@ -10,7 +10,7 @@ import LogOut from './components/home/LogOut';
 import Layout from './components/layout/Layout';
 import { Login } from './components/login/login';
 import { Register } from './components/register/register';
-import PageNotFound from './views/404/PageNotFound';
+import PageNotFound from './components/404/PageNotFound';
 
 function App() {
   return (

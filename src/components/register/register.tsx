@@ -43,7 +43,7 @@ const Register = () => {
       .unwrap()
       .then((result: any) => {
         console.log(`fastlog => result`, result);
-        toast.success('Great!! now you cam login!');
+        toast.success('Great!! now you can login!');
       })
       .catch((error) => {
         toast.error(error + '😢');

@@ -3,7 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getCharacterInfo } from '../../app/slices/charactersSlice';
 import { store } from '../../app/store';
 import { Button, InnerContainer } from '../commons';
+import FavButton from '../favButton/FavButton';
 import { DetailsContainer } from './Details.style';
+import EpisodesList from './episodes/EpisodesList';
 
 const Details = () => {
   const location = useLocation();
@@ -65,6 +67,40 @@ const Details = () => {
           </p>
         </div>
       </DetailsContainer>
+
+      <div
+        style={{
+          padding: '20px',
+        }}
+      >
+        <FavButton characterId={id} />
+      </div>
+
+      <div
+        style={{
+          marginTop: '20px',
+          marginBottom: '20px',
+          backgroundColor: '#fff',
+          padding: '20px',
+          borderRadius: '10px',
+          boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
+          color: '#000',
+          border: '1px solid #000',
+        }}
+      >
+        <h2>Episodes:</h2>
+        {characterInfo?.episode?.map((episodeUrl: any) => (
+          <EpisodesList key={episodeUrl} episodeUrl={episodeUrl} />
+        ))}
+      </div>
+
+      <div
+        style={{
+          padding: '20px',
+        }}
+      >
+        <FavButton characterId={id} />
+      </div>
     </InnerContainer>
   );
 };
