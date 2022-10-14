@@ -7,6 +7,8 @@ import constants from '../constants';
 
 const initialState: any = {
   jwtToken: [],
+  favourites: {},
+  favouriteShouldUpdate: true,
   pending: false,
   error: false,
 };
@@ -84,13 +86,60 @@ const registerReducer = {
   },
 };
 
+export const userFavourites = createAsyncThunk(
+  'user/favourites',
+  async (data: { userId: string }, { rejectWithValue }) => {
+    const { userId } = data;
+
+    return axios
+      .post(
+        constants.api.favourite + 'user',
+        {
+          userId,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return rejectWithValue(error.message);
+      });
+  }
+);
+
+const userFavouritesReducer = {
+  [userFavourites.pending.toString()]: (state: any) => {
+    state.pending = true;
+  },
+  [userFavourites.fulfilled.toString()]: (
+    state: any,
+    response: { payload: any }
+  ) => {
+    const { payload } = response;
+    state.pending = false;
+    state.favourites = payload;
+  },
+  [userFavourites.rejected.toString()]: (state: any) => {
+    state.pending = false;
+    state.error = true;
+  },
+};
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    favouriteShouldUpdate: (state, action) => {
+      state.favouriteShouldUpdate = action.payload;
+    },
+  },
   extraReducers: {
     ...loginReducer,
     ...registerReducer,
+    ...userFavouritesReducer,
   },
 });
 

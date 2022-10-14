@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useAuthUser } from 'react-auth-kit';
 import { toast } from 'react-toastify';
 import constants from '../../app/constants';
+import { userSlice } from '../../app/slices/userSlice';
+import { store } from '../../app/store';
 import { Button } from '../commons';
 
 const FavButton = (props: { characterId: string | number }) => {
@@ -48,6 +50,7 @@ const FavButton = (props: { characterId: string | number }) => {
         }
 
         setIsInFavList(true);
+        store.dispatch(userSlice.actions.favouriteShouldUpdate(true));
       })
       .catch((err) => {
         setIsInFavList(false);
@@ -66,6 +69,7 @@ const FavButton = (props: { characterId: string | number }) => {
       .then((res) => {
         toast.success('Removed from favourites! 💓');
         setIsInFavList(false);
+        store.dispatch(userSlice.actions.favouriteShouldUpdate(true));
       })
       .catch((err) => {
         toast.error('Error! 😢');

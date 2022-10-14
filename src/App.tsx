@@ -11,6 +11,7 @@ import Layout from './components/layout/Layout';
 import { Login } from './components/login/login';
 import { Register } from './components/register/register';
 import PageNotFound from './components/404/PageNotFound';
+import { FavList } from './components/favList/FavList';
 
 function App() {
   return (
@@ -26,10 +27,14 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<LogOut />} />
-            <Route path="/register" element={<Register />} />
-
+            <Route
+              path="/favs"
+              element={
+                <RequireAuth loginPath="/login">
+                  <FavList />
+                </RequireAuth>
+              }
+            />
             <Route
               path="/character/:id"
               element={
@@ -38,6 +43,9 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<LogOut />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           <ToastContainer

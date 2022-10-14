@@ -45,6 +45,14 @@ const Home = () => {
   return (
     <InnerContainer>
       <h1>Welcome!</h1>
+      <Button
+        onClick={() => {
+          navigate('/favs');
+        }}
+      >
+        Your favourites
+      </Button>
+      <hr></hr>
       <Button onClick={logout}>Logout</Button>
       <Pagination />
       <CharacterList />
